@@ -3,7 +3,6 @@ import Database from "./v1/database";
 import environment from "./config/environment";
 import dbConfig from "./config/database";
 
-
 (async () => {
   try {
     const db = new Database(environment.nodeEnv, dbConfig);
@@ -19,5 +18,3 @@ import dbConfig from "./config/database";
     );
   }
 })();
-
-

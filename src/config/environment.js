@@ -8,6 +8,7 @@ export default {
   jwtRefreshTokenSecret:
     process.env.JWT_REFRESH_TOKEN_SECRET ||
     "7bfd6e6512e8ac8b56e31cfbdbe767892a87075039d4a524b2b2ddcb2fb2c69f",
-  redisHost: process.env.REDIS_HOST || "redis",
+  // redisHost: process.env.REDIS_HOST || "redis",
+  redisHost: "127.0.0.1",
   redisPort: parseInt(process.env.REDIS_PORT) || 6379,
 };
