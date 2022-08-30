@@ -17,7 +17,7 @@ class AuthenticationService {
     }
 
     const payload = {
-      id: user.id,
+      id: user._id,
     };
     const accessToken = jwtClient.generateAccessToken(payload);
     const refreshToken = jwtClient.generateRefreshToken(payload);

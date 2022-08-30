@@ -10,8 +10,12 @@ class SetPasswordService {
   async execute({ tempId, password }) {
     const cachedData = await cache.get(tempId);
 
-    if (!cachedData || !cachedData.isVerified) {
+    if (!cachedData) {
       throw new AppError("unauthorized", 401);
+    }
+
+    if (!cachedData.isVerified) {
+      throw new AppError("verify your email", 400);
     }
 
     const hashedPassword = await bcrypt.hash(password, environment.saltRounds);
@@ -21,7 +25,7 @@ class SetPasswordService {
     });
 
     if (!user) {
-      throw new AppError("Something went wrong while creating user");
+      throw new AppError("Something went wrong while creating user", 500);
     }
 
     cache.delete(tempId);

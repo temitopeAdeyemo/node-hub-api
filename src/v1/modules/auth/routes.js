@@ -4,33 +4,32 @@ import {
   verifyEmail,
   setPassword,
   loginUser,
+  changePassword,
   forgotPassword,
   resetPassword,
-  verifyResetPassOtp,
 } from "./controllers";
 import {
-  registerValidator,
+  emailValidator,
   verifyEmailValidator,
   setPasswordValidator,
   loginValidator,
-  forgotPassEmailValidator,
-  verifyResetPassOtpValidator,
+  changePasswordValidator,
   resetPasswordValidator,
-
 } from "./validators";
+import auth from "../../shared/middlewares/auth";
 
 const router = express.Router();
 
-router.post("/register", registerValidator, registerUser);
+router.post("/register", emailValidator, registerUser);
 router.post("/verify-email", verifyEmailValidator, verifyEmail);
 router.post("/set-password", setPasswordValidator, setPassword);
 router.post("/login", loginValidator, loginUser);
-router.post("/forgot-password/get-otp", forgotPassEmailValidator, forgotPassword);
 router.post(
-  "/forgot-password/verify-otp",
-  verifyResetPassOtpValidator,
-  verifyResetPassOtp
+  "/change-password",
+  [auth, changePasswordValidator],
+  changePassword
 );
-router.patch("/reset-password", setPasswordValidator, resetPassword);
+router.post("/forgot-password", emailValidator, forgotPassword);
+router.post("/reset-password", resetPasswordValidator, resetPassword);
 
 export default router;

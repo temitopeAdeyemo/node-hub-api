@@ -1,8 +1,8 @@
-import { v4 as uuid } from "uuid";
 import AppError from "../../../shared/utils/appError";
 import userRepository from "../../users/repositories/UserRepository";
 import cache from "../../../shared/services/cache";
-import { generateOTP } from "../../../shared/utils";
+import { generateOTP, generateTempId } from "../../../shared/utils";
+import tasks from "../../../shared/rabbitMQ/publisher";
 
 class RegistrationService {
   async execute(data) {
@@ -16,13 +16,12 @@ class RegistrationService {
       isVerified: false,
       otp,
     };
-    const tempId = uuid();
-    cache.set(`${tempId}`, cachedData, 60 * 60 * 5);
-    //  send email with otp
+    const tempId = generateTempId();
+    cache.set(tempId, cachedData, 60 * 60 * 5);
 
-    // return only the tempId after sending the email
+    await tasks.sendOTP(data.email, otp);
 
-    return { tempId, otp };
+    return { tempId };
   }
 }
 

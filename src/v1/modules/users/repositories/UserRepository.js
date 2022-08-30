@@ -14,6 +14,11 @@ class UserRepository {
   async save(user) {
     await user.save();
   }
+
+  async findById(id) {
+    const user = await User.findById(id);
+    return user;
+  }
 }
 
 const userRepository = new UserRepository();

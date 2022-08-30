@@ -1,28 +1,26 @@
 import AppError from "../../../shared/utils/appError";
-import userRepository from "../../users/repositories/UserRepository";
 import cache from "../../../shared/services/cache";
-import { generateOTP } from "../../../shared/utils";
-import { v4 as uuid } from "uuid";
+import userRepository from "../../users/repositories/UserRepository";
+import { generateOTP, generateTempId } from "../../../shared/utils";
+import tasks from "../../../shared/rabbitMQ/publisher";
 
 class ForgotPasswordService {
-  async execute(data) {
-    const user = await userRepository.findByEmail(data.email);
-
+  async execute({ email }) {
+    const user = await userRepository.findByEmail(email);
     if (!user) {
-      throw new AppError("This email does not exists.");
+      throw new AppError("Account not found", 404);
     }
 
     const otp = generateOTP();
+    const tempId = generateTempId();
     const cachedData = {
-      email: data.email,
-      for: "Forgot_Password",
+      email: user.email,
       otp,
     };
+    cache.set(tempId, cachedData, 60 * 60 * 5);
 
-    const tempId = uuid();
-    cache.set(`${tempId}`, cachedData, 60 * 60 * 5);
-    // send otp
-    return {tempId, otp};
+    await tasks.sendOTP(user.email, otp, true);
+    return { tempId };
   }
 }
 

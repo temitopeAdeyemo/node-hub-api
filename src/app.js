@@ -10,6 +10,7 @@ export default class App {
     this.app.use(
       logger("dev", { skip: (req, res) => environment.nodeEnv === "test" })
     );
+    require('./v1/shared/rabbitMQ/consumers');
     this.app.use(express.json());
     this.setRoutes();
     this.app.use(errorHandler);

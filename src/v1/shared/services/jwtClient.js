@@ -1,5 +1,6 @@
-import { sign } from "jsonwebtoken";
+import { sign, verify } from "jsonwebtoken";
 import environment from "../../../config/environment";
+import AppError from "../utils/appError";
 
 class JwtClient {
   constructor() {

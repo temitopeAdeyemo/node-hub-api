@@ -1,6 +1,19 @@
 version: "3.9"
 
 services:
+
+  rabbitmq:
+    image: rabbitmq:3.8-management-alpine
+    container_name: 'auth_rabbitmq'
+    ports:
+        - 5673:5672
+        - 15673:15672
+    volumes:
+        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+        - auth-network
+
   api: &api
     build:
       context: .
@@ -14,11 +27,13 @@ services:
       - /app/node_modules
     depends_on:
       - redis
+      - rabbitmq
+    command: sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- npm start'
     networks:
       - auth-network
 
   redis:
-    image: redis:alpine
+    image: redis:alpine3.16
     container_name: auth_cache
     ports:
       - "6379:6379"

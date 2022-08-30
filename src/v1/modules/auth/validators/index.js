@@ -1,17 +1,15 @@
 import verifyEmailValidator from "./verifyEmail";
-import registerValidator from "./register";
+import emailValidator from "./email";
 import setPasswordValidator from "./setPassword";
 import loginValidator from "./login";
-import forgotPassEmailValidator from "./forgotPassword";
+import changePasswordValidator from "./changePassword";
 import resetPasswordValidator from "./resetPassword";
-import verifyResetPassOtpValidator from "./verifyResetPassOtp";
 
 module.exports = {
   verifyEmailValidator,
-  registerValidator,
+  emailValidator,
   setPasswordValidator,
   loginValidator,
-  forgotPassEmailValidator,
+  changePasswordValidator,
   resetPasswordValidator,
-  verifyResetPassOtpValidator,
 };

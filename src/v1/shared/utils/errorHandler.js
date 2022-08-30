@@ -1,4 +1,5 @@
 const { CelebrateError } = require("celebrate");
+const { JsonWebTokenError } = require("jsonwebtoken");
 
 const AppError = require("./appError");
 
@@ -24,7 +25,14 @@ module.exports = function errorHandler(error, request, response, _) {
     });
   }
 
-  console.error(error.message);
+  if (error instanceof JsonWebTokenError) {
+    return response.status(401).json({
+      success: false,
+      message: "Invalid or expired token",
+    });
+  }
+
+  console.error(error.stack);
 
   return response.status(500).json({
     success: false,
