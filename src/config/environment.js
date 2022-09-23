@@ -13,4 +13,6 @@ export default {
   sendgridApiKey: process.env.SENDGRID_API_KEY || "",
   defaultMailSender: process.env.DEFAULT_MAIL_SENDER || "",
   amqpUrl: process.env.AMQP_URL || "amqp://localhost:5672",
+  cloudinaryURL: process.env.CLOUDINARY_URL || "",
+  secretKey: process.env.SECRET_KEY || "",
 };

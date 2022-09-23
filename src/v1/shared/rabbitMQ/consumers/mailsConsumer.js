@@ -12,7 +12,6 @@ async function processSendMail(msg) {
   const connection = await amqplib.connect(environment.amqpUrl, "heartbeat=60");
   const channel = await connection.createChannel();
   channel.prefetch(10);
-  
   const queue = "auth.emails";
   process.once("SIGINT", async () => {
     console.log("got sigint, closing connection");

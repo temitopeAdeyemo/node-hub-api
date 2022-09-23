@@ -28,24 +28,23 @@ it("has a module", () => {
 
 const data = {
   email: "test1@gmail.com",
-  //   password: "testpassword",
+    password: "testpassword",
 };
 
 const cachedData = {
   email: data.email,
-  isVerified: false,
-  otp: 123456,
+  isVerified: true,
+  password: "testpassword"
 };
 
 it("should cache a user email", async () => {
-  const res = await request.post("/v1/auth/register").send({
-    email: "temitopejulius99@gmail.com",
-  });
-  console.log(res.body);
+  const user = await new User(newUser);
+  const res = await request.post("/v1/auth/login").send(data);
+  console.log("res.boddddddddddddy", res.body);
 });
 
 // it("should save a user in the database", async () => {
-//   const user = await new User(newUser);
+  // const user = await new User(newUser);
 //   await user.save();
 //   expect(user.email).toEqual(newUser.email);
 //   expect(newUser.password).toBeDefined();

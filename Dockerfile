@@ -12,4 +12,6 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 8000
+# if production expose port 80
+# else expose port 8000
+EXPOSE 80

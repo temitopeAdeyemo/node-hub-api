@@ -7,7 +7,10 @@ import userRepository from "../../users/repositories/UserRepository";
 import jwtClient from "../../../shared/services/jwtClient";
 
 class SetPasswordService {
-  async execute({ tempId, password }) {
+  async execute({ tempId, password, secretKey = null }) {
+    if (secretKey && secretKey !== environment.secretKey) {
+      throw new AppError("Admin account unauthorized", 401);
+    }
     const cachedData = await cache.get(tempId);
 
     if (!cachedData) {
@@ -19,10 +22,15 @@ class SetPasswordService {
     }
 
     const hashedPassword = await bcrypt.hash(password, environment.saltRounds);
-    const user = await userRepository.create({
+    const userData = {
       email: cachedData.email,
       password: hashedPassword,
-    });
+    };
+    if (secretKey === environment.secretKey) {
+      userData.role = "ADMIN";
+    }
+
+    const user = await userRepository.create(userData);
 
     if (!user) {
       throw new AppError("Something went wrong while creating user", 500);

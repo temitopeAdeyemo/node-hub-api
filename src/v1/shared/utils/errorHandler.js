@@ -1,5 +1,6 @@
 const { CelebrateError } = require("celebrate");
 const { JsonWebTokenError } = require("jsonwebtoken");
+const { MulterError } = require("multer");
 
 const AppError = require("./appError");
 
@@ -22,6 +23,13 @@ module.exports = function errorHandler(error, request, response, _) {
     return response.status(400).json({
       success: false,
       message,
+    });
+  }
+
+  if (error instanceof MulterError) {
+    return response.status(400).json({
+      success: false,
+      message: `${error.message} '${error.field}'`,
     });
   }
 

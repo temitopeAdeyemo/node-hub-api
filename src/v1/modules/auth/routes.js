@@ -20,6 +20,13 @@ import auth from "../../shared/middlewares/auth";
 
 const router = express.Router();
 
+/**
+ * @swagger
+ *  tags:
+ *    name: Auth
+ *    description: Authentication operations
+ */
+
 router.post("/register", emailValidator, registerUser);
 router.post("/verify-email", verifyEmailValidator, verifyEmail);
 router.post("/set-password", setPasswordValidator, setPassword);

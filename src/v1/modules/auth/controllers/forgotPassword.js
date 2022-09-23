@@ -1,6 +1,25 @@
 import asyncWrapper from "../../../shared/utils/asyncWrapper";
 import forgotPassword from "../services/ForgotPasswordService";
 
+/**
+ * @swagger
+ * /forgot-password:
+ *   post:
+ *     summary: forgot password
+ *     tags: [Auth]
+ *     description: forgot password
+ *     security: []
+ *     parameters:
+ *      - in : body
+ *        name: body
+ *        required: true
+ *        schema:
+ *          type: object
+ *          required:
+ *            - email
+ *          properties:
+ *            email: {type: string, description: "email", example: "johndoe@example.com"}
+ */
 export default asyncWrapper(async (req, res) => {
   const { email } = req.body;
 
