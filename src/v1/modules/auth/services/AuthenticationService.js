@@ -10,12 +10,12 @@ class AuthenticationService {
   async execute({ email, password }) {
     const user = await userRepository.findByEmail(email);
     if (!user) {
-      throw new AppError("Invalid email or password", 401);
+      throw new AppError("Invalid login credentials.", 401);
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      throw new AppError("Invalid email or password", 401);
+      throw new AppError("Invalid login credentials.", 401);
     }
 
     const payload = {
