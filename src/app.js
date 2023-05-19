@@ -32,5 +32,5 @@ export default class App {
     this.app.listen(port, () => {
       console.log(`Listening at port ${port}`);
     });
-  }
+  };
 }
